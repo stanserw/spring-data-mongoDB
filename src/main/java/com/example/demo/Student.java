@@ -2,6 +2,7 @@ package com.example.demo;
 
 import lombok.Data;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
@@ -12,14 +13,13 @@ import java.time.ZonedDateTime;
 import java.util.List;
 
 @Data
-@Document(collation = "students")
+@Document
 public class Student {
     @Id
     private String id;
-    @Field("first")
     private String firstName;
-    @Field("last")
     private String lastName;
+    @Indexed(unique = true)
     private String email;
     private Gender gender;
     private Address address;
