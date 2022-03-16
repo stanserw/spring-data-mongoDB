@@ -11,6 +11,7 @@ import org.springframework.data.mongodb.core.query.Query;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @SpringBootApplication
 public class DemoApplication {
@@ -40,8 +41,6 @@ public class DemoApplication {
                     LocalDateTime.now()
                     );
 
-//            usingMongoTemplateAndQuery(repository, mongoTemplate, email, student);
-
             repository.findStudentByEmail(email)
                     .ifPresentOrElse(s -> {
                         System.out.println(s + " already exists");
@@ -49,6 +48,25 @@ public class DemoApplication {
                         System.out.println("Inserting student " + student);
                         repository.insert(student);
                     });
+
+            String email2 = "katarzyna.milosz@gmail.com";
+            Student student2 = new Student(
+                    "Katarzyna",
+                    "Miłosz",
+                    email2,
+                    Gender.FEMALE,
+                    address,
+                    List.of("Jazda rowerem", "Ksiązki", "Podróże"),
+                    BigDecimal.TEN,
+                    LocalDateTime.now()
+            );
+
+            usingMongoTemplateAndQuery(repository, mongoTemplate, email2, student2);
+
+            Optional<Student> studentByEmail = repository.findStudentByEmail(email2);
+            Optional<Student> studentFindById = repository.findById(studentByEmail.get().getId());
+            System.out.println("Find student by id " + studentFindById);
+
 
         };
     }
