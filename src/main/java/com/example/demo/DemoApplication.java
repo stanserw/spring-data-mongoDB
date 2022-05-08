@@ -38,16 +38,23 @@ public class DemoApplication {
                     List.of("Computer Science", "Bicycle"),
                     BigDecimal.TEN,
                     LocalDateTime.now()
-                    );
+            );
 
 //            usingMongoTemplateAndQuery(repository, mongoTemplate, email, student);
 
             repository.findStudentByEmail(email)
                     .ifPresentOrElse(s -> {
                         System.out.println(s + " already exists");
-                    },() -> {
+                    }, () -> {
                         System.out.println("Inserting student " + student);
                         repository.insert(student);
+                    });
+
+            repository.findStudentByFirstName("Jasmila")
+                    .ifPresentOrElse(s1 -> {
+                        System.out.println(s1 + " already exists with first name");
+                    }, () -> {
+                        System.out.println("Student not already exists with first name");
                     });
 
         };
